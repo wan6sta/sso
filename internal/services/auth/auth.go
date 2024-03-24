@@ -31,7 +31,7 @@ type UserProvider interface {
 }
 
 type AppProvider interface {
-	App(ctx context.Context, appID int) (models.App, error)
+	App(ctx context.Context, appID int64) (models.App, error)
 }
 
 var (
@@ -56,7 +56,7 @@ func New(
 	}
 }
 
-func (a *Auth) Login(ctx context.Context, email string, password string, appID int) (string, error) {
+func (a *Auth) Login(ctx context.Context, email string, password string, appID int64) (token string, err error) {
 	const op = "auth.Login"
 
 	log := a.log.With(slog.String("op", op))
@@ -91,7 +91,7 @@ func (a *Auth) Login(ctx context.Context, email string, password string, appID i
 
 	log.Info("login successful")
 
-	token, err := jwt.NewToken(user, app, a.tokenTTL)
+	token, err = jwt.NewToken(user, app, a.tokenTTL)
 	if err != nil {
 		log.Error("failed to generate token", sl.Err(err))
 

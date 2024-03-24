@@ -10,7 +10,6 @@ CREATE TABLE IF NOT EXISTS admins
 (
     id INTEGER PRIMARY KEY,
     user_id INTEGER UNIQUE,
-    isAdmin BOOLEAN NOT NULL DEFAULT FALSE,
     FOREIGN KEY (user_id) REFERENCES users (id)
 );
 
